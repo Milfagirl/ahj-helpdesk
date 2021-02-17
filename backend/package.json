@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "start": "forever server.js",
     "watch": "forever -w server.js"
@@ -10,6 +10,7 @@
   "author": "svetlana ryabova",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "forever": "^1.0.0",
     "koa": "^2.7.0",
     "koa-body": "^4.1.0",
@@ -17,5 +18,7 @@
     "koa2-cors": "^2.0.6",
     "nanoid": "^2.0.3"
   },
-  "engines":{"node":"11.x"}
+  "engines": {
+    "node": "11.x"
+  }
 }

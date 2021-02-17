@@ -1,30 +1,63 @@
 const http = require('http');
 const Koa = require('koa');
+const Router = require('koa-router');
+const cors = require('koa2-cors');
 const koaBody = require('koa-body');
+
+
 const app = new Koa();
-
+app.use(cors());
 app.use(koaBody({
-    urlencoded: true,
-}))
+    json: true
+}));
 
-app.use(async (ctx, next) => {
-    const origin = ctx.request.get('Origin');
-    if (!origin) {
-        return await next();
+const router = new Router();
+
+
+let nextId = 1;
+const ticket = [
+    { id: nextId++, name: 'Билет 1', status: true, created: 'date pm' },
+    { id: nextId++, name: 'Билет 2', status: true, created: 'date pm' },
+]
+nextId = 1;
+const ticketFull = [
+    { id: nextId++, name: 'Билет 1', description: 'Хоккей', status: true, created: 'date pm' },
+    { id: nextId++, name: 'Билет 2', description: 'Театр', status: true, created: 'date pm' },
+]
+
+
+router.get('/allTickets', async (ctx, next) => {
+    const { id } = ctx.request.query;
+    if (!id) {
+        ctx.response.body = ticket;
+    return;
+    } else {
+        ctx.response.body = ticketFull.filter((o) => o.id === Number(id))
+            return;
     }
-    const headers ={'Access-Control-Allow-Origin':'*',};
-
-    if (ctx.request.get('Access-Control-Request-Method')) {
-        ctx.response.set({...headers,'Access-Control-Allow-Methods':'GET, POST, PUT, DELETE, PATCH',});
-
-    }
-   
-    if(ctx.request.get('Access-Control-Request-Headers')){
-        ctx.response.set('Access-Control-Allow-Headers',
-        ctx.request.get('Access-Control-Allow-Request-Headers'));}
-    ctx.response.body = 'server response';
 });
 
 
+router.post('/setTickets', koaBody, async (ctx, next) => {
+            console.log(tx.request.body)
+            const { name, description, status, created } = ctx.request.body
+            const id = nextId++
+            ticket.push({ id, name, status, created });
+            ticketFull.push({ id, name, description, status, created });
+            ctx.response.status = 204;
+            ctx.response.body = 'created success'
+            return ctx.response.body;
+       
+            
+            
+    }
+);
 
-const server = http.createServer(app.callback()).listen(7070); 
+app.use(router.routes())
+app.use(router.allowedMethods());
+
+const port = process.env.PORT || 7070;
+const server = http.createServer(app.callback());
+server.listen(port, () => console.log('server started on http://localhost: 7070'));
+
+

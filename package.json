@@ -1,5 +1,5 @@
 {
-  "name": "ajs-helpdesk",
+  "name": "ahj-helpdesk",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -31,7 +31,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "core-js": "^3.6.5",
+    "core-js": "^3.8.3",
     "css-loader": "^4.2.2",
     "forever": "^3.0.4",
     "html-webpack-plugin": "^4.4.1",
