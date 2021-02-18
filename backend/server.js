@@ -13,7 +13,6 @@ app.use(koaBody({
 
 const router = new Router();
 
-
 let nextId = 1;
 const ticket = [
     { id: nextId++, name: 'Билет 1', status: true, created: 'date pm' },
@@ -27,30 +26,27 @@ const ticketFull = [
 
 
 router.get('/allTickets', async (ctx, next) => {
+    
     const { id } = ctx.request.query;
     if (!id) {
         ctx.response.body = ticket;
-    return;
+        return;
     } else {
         ctx.response.body = ticketFull.filter((o) => o.id === Number(id))
-            return;
+        return;
     }
 });
 
 
-router.post('/setTickets', koaBody, async (ctx, next) => {
-            console.log(tx.request.body)
-            const { name, description, status, created } = ctx.request.body
-            const id = nextId++
-            ticket.push({ id, name, status, created });
-            ticketFull.push({ id, name, description, status, created });
-            ctx.response.status = 204;
-            ctx.response.body = 'created success'
-            return ctx.response.body;
-       
-            
-            
-    }
+router.post('/setTickets', async (ctx, next) => {
+   
+    const { name, description, status, created } = ctx.request.body
+    const id = nextId++
+    ticket.push({ id, name, status, created });
+    ticketFull.push({ id, name, description, status, created });
+    ctx.response.body = ticketFull
+    return;
+}
 );
 
 app.use(router.routes())

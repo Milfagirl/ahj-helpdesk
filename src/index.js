@@ -3,8 +3,8 @@ const getData = (name) => {
     name.addEventListener('load', () => {
         if (name.status >= 200 && name.status < 300) {
             try {
-                const data = JSON.parse(name.responseText);
-                console.log(data)
+                console.log('success')
+                console.log(name.response)
             } catch (e) {
                 console.error(e);
             }
@@ -13,7 +13,6 @@ const getData = (name) => {
 }
 
 const xhr1 = new XMLHttpRequest();
-
 xhr1.open('GET', 'http://localhost:7070/allTickets', true);
 xhr1.send()
 getData(xhr1)
@@ -24,14 +23,10 @@ xhr2.send()
 getData(xhr2)
 
 const xhr3 = new XMLHttpRequest();
-
 xhr3.open('POST', 'http://localhost:7070/setTickets');
 xhr3.setRequestHeader("Content-Type", "application/json");
-xhr3.setRequestHeader("Access-Control-Allow-Origin", "*");
-xhr3.withCredentials = true;
-xhr3.mode = 'no-cors'
-
-const reqData = { name: 'Билет 3', description: 'Театр', status: true, created: Date.now()}
+xhr3.setRequestHeader('Access-Control-Allow-Credentials', true);
+const reqData = { name: 'Билет', description: 'Music hall', status: true, created: Date.now()}
 xhr3.send(JSON.stringify(reqData))
 getData(xhr3)
 
